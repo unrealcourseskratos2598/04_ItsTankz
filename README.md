@@ -7,3 +7,4 @@ A TPS single player head-to-head tank battle game with simple AI, terrain and ad
 
 ## List of al Commits :
 * IT01 Intro Notes and Assets
+* IT02 Creating Game Design Document (GDD)
