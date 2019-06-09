@@ -2,9 +2,15 @@
 
 #pragma once
 
+
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "TankScript.generated.h"
+
+//FowardDeclarations
+class UTankBarrel;
+class UTankTurret;
+class UTankAimingComponent;
 
 UCLASS()
 class ITZTANKZ_API ATankScript : public APawn
@@ -19,11 +25,23 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	UTankAimingComponent* TankAimingComponent = nullptr;
 
+public:	
+		
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
+	void AimAt(FVector OutHitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetBarrelReference(UTankBarrel* BarrelToSet);
+
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void SetTurretReference(UTankTurret* TurretToSet);
+
+private:
+
+	UPROPERTY(EditAnywhere, Category = Firing)
+		float LaunchSpeed = 100000.f; // TODO find a sensible default value.
 };

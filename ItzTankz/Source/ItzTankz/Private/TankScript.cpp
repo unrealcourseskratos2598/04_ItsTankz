@@ -2,12 +2,16 @@
 
 
 #include "TankScript.h"
+#include "TankAimingComponent.h"
 
 // Sets default values
 ATankScript::ATankScript()
 {
  	// Set this pawn to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	// No need to protect pointer as added at construction
+	TankAimingComponent = CreateAbstractDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
 
 }
 
@@ -18,12 +22,6 @@ void ATankScript::BeginPlay()
 	
 }
 
-// Called every frame
-void ATankScript::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
 
 // Called to bind functionality to input
 void ATankScript::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -31,4 +29,21 @@ void ATankScript::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
 }
+
+void ATankScript::AimAt(FVector OutHitLocation)
+{
+	TankAimingComponent->AimAt(OutHitLocation, LaunchSpeed);
+	
+}
+
+void ATankScript::SetBarrelReference(UTankBarrel* BarrelToSet)
+{
+	TankAimingComponent->SetBarrelReference(BarrelToSet);
+}
+
+void ATankScript::SetTurretReference(UTankTurret* TurretToSet)
+{
+	TankAimingComponent->SetTurretReference(TurretToSet);
+}
+
 
