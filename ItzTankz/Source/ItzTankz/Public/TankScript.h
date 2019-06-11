@@ -11,6 +11,9 @@
 class UTankBarrel;
 class UTankTurret;
 class UTankAimingComponent;
+class UProjectileMovementComponent;
+
+class AProjectile;
 
 UCLASS()
 class ITZTANKZ_API ATankScript : public APawn
@@ -27,6 +30,8 @@ protected:
 
 	UTankAimingComponent* TankAimingComponent = nullptr;
 
+	
+
 public:	
 		
 	// Called to bind functionality to input
@@ -40,8 +45,19 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Setup)
 	void SetTurretReference(UTankTurret* TurretToSet);
 
+	UFUNCTION(BlueprintCallable, Category = Setup)
+	void Fire();
+
 private:
 
 	UPROPERTY(EditAnywhere, Category = Firing)
 		float LaunchSpeed = 100000.f; // TODO find a sensible default value.
+
+	UPROPERTY(EditAnywhere, Category = Setup)
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	// Local Barrel reference for spawing projectile
+	UTankBarrel* Barrel = nullptr;
+
+
 };
