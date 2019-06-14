@@ -24,5 +24,8 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 private:
-	
+
+	//Max proximity b/w AITank and PlayerTank before it stops moving.
+	float AcceptanceRadius = 3000;
+
 };

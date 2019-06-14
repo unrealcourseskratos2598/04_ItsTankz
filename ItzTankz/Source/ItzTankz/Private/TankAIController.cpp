@@ -21,12 +21,17 @@ void ATankAIController::Tick(float DeltaTime)
 
 	if (PlayerTank)
 	{
+		//Move Towards the Player
+		MoveToActor(PlayerTank, AcceptanceRadius);
+
 		ControlledTank->AimAt(PlayerTank->GetActorLocation());
+
+		// Fire when ready
+		ControlledTank->Fire();
+
 	}
 
-	// Fire when ready
-	ControlledTank->Fire(); // TODO Limit Firing Rate (Currently AI Firing Every frame)
-
+	
 	
 	
 }

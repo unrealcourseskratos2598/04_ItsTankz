@@ -7,6 +7,7 @@
 #include "Engine/StaticMeshSocket.h"
 #include "GameFramework/ProjectileMovementComponent.h"
 #include "TankAimingComponent.h"
+#include "TankMovementComponent.h"
 
 // Sets default values
 ATankScript::ATankScript()
@@ -16,6 +17,7 @@ ATankScript::ATankScript()
 
 	// No need to protect pointer as added at construction
 	TankAimingComponent = CreateDefaultSubobject<UTankAimingComponent>(FName("Aiming Component"));
+		
 	
 }
 
