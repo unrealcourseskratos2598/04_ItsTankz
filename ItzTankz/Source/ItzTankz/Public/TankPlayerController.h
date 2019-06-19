@@ -7,19 +7,23 @@
 #include "GameFramework/PlayerController.h"
 #include "TankPlayerController.generated.h"
 
-class ATankScript;
+class UTankAimingComponent;
 
 /**
- * 
+ *  Responsible for fundamental functioning of Player
  */
 UCLASS()
 class ITZTANKZ_API ATankPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+protected:
+
+	UFUNCTION(BlueprintImplementableEvent, Category = "Setup")
+	void FoundAimingComponent(UTankAimingComponent* AimCompRef);
+
 public:
-	ATankScript* GetControlledTank() const;
-		
+			
 	virtual void BeginPlay() override;
 
 	virtual void Tick(float) override;
@@ -33,7 +37,7 @@ private:
 	float CrossHairYLocation = 0.33333f;
 
 	UPROPERTY(EditDefaultsOnly)
-		float LineTraceRange = 1000000.f;
+	float LineTraceRange = 1000000.f;
 
 	// Start moving the barrel of the PlayerTank so that
 	// it points and shoots to where the crohair intersects the world.

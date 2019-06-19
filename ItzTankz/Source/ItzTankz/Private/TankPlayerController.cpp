@@ -2,23 +2,18 @@
 
 
 #include "TankPlayerController.h"
-#include "TankScript.h"
+#include "TankAimingComponent.h"
 #include "Engine/World.h"
 
 
 void ATankPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
-
-	auto ControlledTank = GetControlledTank();
-	if (!ControlledTank)
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController not possessing a tank!"));
-	}
-	else
-	{
-		UE_LOG(LogTemp, Warning, TEXT("PlayerController is possessing : %s"), *ControlledTank->GetName());
-	}
+	
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
+	FoundAimingComponent(AimingComponent);
+	
 }
 
 void ATankPlayerController::Tick(float DeltaTime)
@@ -27,20 +22,17 @@ void ATankPlayerController::Tick(float DeltaTime)
 	AimTowardsCrosshair();
 }
 
-ATankScript* ATankPlayerController::GetControlledTank() const
-{
-	return Cast<ATankScript>(GetPawn());
-}
 
 void ATankPlayerController::AimTowardsCrosshair()
 {
-
-	if (!GetControlledTank()) {	return;	}
+	if (!GetPawn()) { return; }
+	auto AimingComponent = GetPawn()->FindComponentByClass<UTankAimingComponent>();
+	if (!ensure(AimingComponent)) { return; }
 
 	FVector OutHitLocation; // Out Parameter
 	if (GetSightRayHitLocation(OutHitLocation)) // Has a "side-effect", is going to line-trace
 	{
-		GetControlledTank()->AimAt(OutHitLocation);
+		AimingComponent->AimAt(OutHitLocation);
 
 		// TODO Tell the controlled tank to aim at this point
 		

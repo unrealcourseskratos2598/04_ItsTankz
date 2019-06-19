@@ -6,9 +6,21 @@
 #include "Components/ActorComponent.h"
 #include "TankAimingComponent.generated.h"
 
+// Enum for Aiming States
+
+UENUM()
+enum class EFiringStatus : uint8
+{
+	Reloading,
+	Aiming,
+	Locked
+};
+
  // Forward Declaration
 class UTankBarrel;
 class UTankTurret;
+
+class AProjectile;
 
 // Holds barrel's properties an Elevate method
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
@@ -17,33 +29,52 @@ class ITZTANKZ_API UTankAimingComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
-	UTankAimingComponent();
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Initialise(UTankTurret* TurretToSet, UTankBarrel* BarrelToSet);
+
+	void AimAt(FVector OutHitLocation);
+
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Fire();
+
 
 protected:
-	// Called when the game starts
-	/*virtual void BeginPlay() override;*/
 
-public:	
-	// Called every frame
-	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
-
-	// TODO set Turret Reference
-
-	void SetBarrelReference(UTankBarrel* BarrelToSet);
-
-	void SetTurretReference(UTankTurret* TurretToSet);
-
-	void AimAt(FVector OutHitLocation, float LaunchSpeed);
-
-	
+	UPROPERTY(BlueprintReadOnly, Category = "State")
+	EFiringStatus FiringStatus = EFiringStatus::Locked;
 
 private:
 
-	UTankBarrel* Barrel = nullptr;
+	// Sets default values for this component's properties
+	UTankAimingComponent();
 
-	UTankTurret* Turret = nullptr;
+	// Called when the game starts
+	virtual void BeginPlay() override;
+
+	// Called every frame
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	void MoveBarrelTowards(FVector AimDirection);
+
+	bool IsBarrelMoving();
+	
+	UTankBarrel* Barrel = nullptr;
+	
+	UTankTurret* Turret = nullptr;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	TSubclassOf<AProjectile> ProjectileBlueprint;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float LaunchSpeed = 8000.f; // TODO find a sensible default value.
+
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float ReloadTimeInSeconds = 3;
+	
+	double LastFireTime = 0;
+
+	FVector AimDirection = FVector(0);
+	
 
 };
