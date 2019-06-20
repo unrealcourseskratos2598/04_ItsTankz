@@ -15,14 +15,33 @@ class ITZTANKZ_API UTankTrack : public UStaticMeshComponent
 	GENERATED_BODY()
 
 public:
-
+	
 	// Sets a throttle between -1 & +1
 	UFUNCTION(BlueprintCallable, Category = "Input")
 	void SetThrottle(float Throttle);
+
+	
 
 
 	// Max force per track, in Newtons
 	UPROPERTY(EditDefaultsOnly)
 	float TrackMaxDrivinggForce = 400000;  // Tank mass = 40 tonnes & 1G acceleration
+
+private:
+
+	UTankTrack();
+
+	virtual void BeginPlay() override;
+
+	//virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+
+	void ApplySidewaysForce();
+
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void DriveTrack();
+
+	float CurrentThrottle = 0;
 	
 };
