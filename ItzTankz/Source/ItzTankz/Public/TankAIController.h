@@ -22,9 +22,14 @@ public:
 
 	virtual void Tick(float DeltaTime) override;
 
-private:
+protected:
 
 	//Max proximity b/w AITank and PlayerTank before it stops moving.
-	float AcceptanceRadius = 3000;
+	UPROPERTY(EditDefaultsOnly, Category = "Firing")
+	float AcceptanceRadius = 8000;
 
+
+private:
+
+	
 };
