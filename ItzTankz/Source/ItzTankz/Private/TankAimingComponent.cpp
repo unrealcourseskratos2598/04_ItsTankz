@@ -149,6 +149,12 @@ void UTankAimingComponent::Fire()
 	}
 }
 
+void UTankAimingComponent::Reload()
+{
+	CurrentAmmo = MaxAmmo;
+}
+
+
 EFiringStatus UTankAimingComponent::GetFiringState() const
 {
 	return FiringStatus;

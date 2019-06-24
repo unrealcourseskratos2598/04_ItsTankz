@@ -39,6 +39,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Setup")
 	void Fire();
 
+	UFUNCTION(BlueprintCallable, Category = "Setup")
+	void Reload();
+	
 	EFiringStatus GetFiringState() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Firing")
@@ -49,6 +52,7 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, Category = "State")
 	EFiringStatus FiringStatus = EFiringStatus::Locked;
+
 
 private:
 
@@ -64,6 +68,7 @@ private:
 	void MoveBarrelTowards(FVector AimDirection);
 
 	bool IsBarrelMoving();
+
 	
 	UTankBarrel* Barrel = nullptr;
 	
