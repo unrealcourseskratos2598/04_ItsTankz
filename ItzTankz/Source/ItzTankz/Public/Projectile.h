@@ -9,6 +9,7 @@
 class UProjectileMovementComponent;
 class UStaticMeshComponent;
 class UParticleSystemComponent;
+class URadialForceComponent;
 
 UCLASS()
 class ITZTANKZ_API AProjectile : public AActor
@@ -31,6 +32,18 @@ public:
 
 private:
 
+	UFUNCTION()
+	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+
+	void OnTimerExpire();
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float DestroyDelay = 5.f;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Setup")
+	float ProjectileDamage = 20.f;;
+
+
 	UProjectileMovementComponent* ProjectileMovementComponent = nullptr;
 
 	UPROPERTY(VisibleAnywhere, Category = "Projectile")
@@ -42,8 +55,8 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Projectile")
 	UParticleSystemComponent* ImpactBlast = nullptr;
 
-	UFUNCTION()
-	void OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UPrimitiveComponent* OtherComponent, FVector NormalImpulse, const FHitResult& Hit);
+	UPROPERTY(VisibleAnywhere, Category = "Projectile")
+	URadialForceComponent* ExplosionForce = nullptr;
 
 
 };
