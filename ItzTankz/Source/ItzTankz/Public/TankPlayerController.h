@@ -43,11 +43,6 @@ private:
 	// it points and shoots to where the crohair intersects the world.
 	void AimTowardsCrosshair();
 
-	virtual void SetPawn(APawn* InPawn) override;
-
-	UFUNCTION()
-	void OnPossessedTankDeath();
-
 	// Return an OUT parameter, true if hits landscape
 	bool GetSightRayHitLocation(FVector& OutHitLocation) const;
 	
