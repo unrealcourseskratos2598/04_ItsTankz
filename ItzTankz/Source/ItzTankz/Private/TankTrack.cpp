@@ -30,7 +30,7 @@ void UTankTrack::OnHit(UPrimitiveComponent* HitComponent, AActor* OtherActor, UP
 void UTankTrack::ApplySidewaysForce()
 {
 	// Work-out the required acceleration this frame to correct
-	auto SlippageSpeed = FVector::DotProduct(GetComponentVelocity(), GetRightVector());
+	auto SlippageSpeed = FVector::DotProduct(GetRightVector(), GetComponentVelocity());
 	auto DeltaTime = GetWorld()->GetDeltaSeconds();
 	auto CorrectionAcceleration = -SlippageSpeed / DeltaTime * GetRightVector();
 
@@ -43,7 +43,7 @@ void UTankTrack::ApplySidewaysForce()
 
 void UTankTrack::SetThrottle(float Throttle)
 {
-	CurrentThrottle = FMath::Clamp<float>((CurrentThrottle + Throttle), -1, +1);
+	CurrentThrottle = FMath::Clamp<float>(CurrentThrottle + Throttle, -5, 5);
 }
 
 void UTankTrack::DriveTrack()
